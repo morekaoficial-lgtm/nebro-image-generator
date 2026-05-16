@@ -1,6 +1,6 @@
 # 🖼️ NEBRO Image Generator
 
-App Streamlit para generar imágenes profesionales de productos usando Banana Pro (Stable Diffusion vía API).
+App Streamlit para generar imágenes profesionales de productos usando **Google Gemini 2.0 Flash Image Generation**.
 
 ## ✨ Características
 
@@ -8,8 +8,10 @@ App Streamlit para generar imágenes profesionales de productos usando Banana Pr
 - 🎨 **Genera imágenes** 1000x1000px con fondo blanco profesional
 - 🔄 **Soporte de variantes**: Genera automáticamente una imagen por cada color
 - 📝 **Prompts inteligentes**: Adaptados según tipo de producto (TWS, OWS, collar, bocina, cable, etc.)
-- 🏷️ **Mantiene diseño exacto**: La foto de referencia guía la generación
+- 🏷️ **Contexto visual**: La foto de referencia guía la generación para mantener el diseño
 - ⬇️ **Descarga fácil**: Un botón por imagen generada
+- ⚡ **Rápido**: 3-5 segundos por imagen con Gemini
+- 💰 **Gratis**: Hasta 2000 imágenes/día en tier gratuito de Google AI Studio
 
 ## 🚀 Deploy en Streamlit Cloud
 
@@ -18,21 +20,18 @@ App Streamlit para generar imágenes profesionales de productos usando Banana Pr
 3. **Conecta tu repo** `nebro-image-generator`
 4. **Deploy automático**
 
-## 🔑 Configuración Banana Pro
+## 🔑 Configuración Gemini API
 
-1. Crea cuenta en [banana.dev](https://www.banana.dev)
-2. Deploya un modelo (ej. Stable Diffusion XL)
-3. Obtén tu **API Key** y **Model Key**
-4. Ingrésalos en la barra lateral de la app
+1. Ve a [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
+2. Crea una **API Key** (gratis)
+3. Ingrésala en la barra lateral de la app
 
-### Modelos recomendados:
-- `sdxl-base` - Stable Diffusion XL base
-- `sdxl-refiner` - Para retoque de detalles
-- O deploya tu propio modelo custom
+### Modelo utilizado:
+- `gemini-2.0-flash-preview-image-generation` — Generación nativa de imágenes con Gemini 2.0 Flash
 
 ## 📝 Cómo usar
 
-1. **Sube una foto** del producto real (la app usará como referencia)
+1. **Sube una foto** del producto real (la app usa como referencia visual)
 2. **Selecciona el tipo** de producto (TWS, OWS, collar, bocina, etc.)
 3. **Ingresa marca** (ej. NEBRO) y **modelo** (ej. WD-305TL)
 4. **Activa variantes** si el producto tiene colores diferentes
@@ -47,13 +46,13 @@ La app genera prompts profesionales automáticamente:
 
 | Tipo | Prompt base |
 |------|-------------|
-| Audífonos TWS | Professional product photography of [brand] [model] wireless earbuds... |
-| Audífonos OWS | Professional product photography of [brand] [model] open-ear wireless headphones... |
-| Collar (Neckband) | Professional product photography of [brand] [model] neckband wireless earphones... |
-| Bocina | Professional product photography of [brand] [model] portable bluetooth speaker... |
-| Cable | Professional product photography of [brand] [model] charging cable... |
-| Cargador | Professional product photography of [brand] [model] wall charger... |
-| Soporte | Professional product photography of [brand] [model] phone stand... |
+| Audífonos TWS | Professional e-commerce product photo of [brand] [model] wireless earbuds... |
+| Audífonos OWS | Professional e-commerce product photo of [brand] [model] open-ear wireless headphones... |
+| Collar (Neckband) | Professional e-commerce product photo of [brand] [model] neckband wireless earphones... |
+| Bocina | Professional e-commerce product photo of [brand] [model] portable bluetooth speaker... |
+| Cable | Professional e-commerce product photo of [brand] [model] charging cable... |
+| Cargador | Professional e-commerce product photo of [brand] [model] wall charger adapter... |
+| Soporte | Professional e-commerce product photo of [brand] [model] phone stand holder... |
 
 Para variantes, agrega automáticamente el color especificado.
 
@@ -68,34 +67,34 @@ nebro-image-generator/
 
 ## 💡 Tips
 
-- **Foto de referencia**: Cuanto más clara, mejor resultado. Fondo neutro ayuda.
+- **Foto de referencia**: Cuanto más clara, mejor. Gemini usa la imagen como guía visual para mantener la forma del producto
 - **Prompt adicional**: Usa para detalles como "con estuche de carga visible" o "cable incluido en caja"
-- **Colores**: Los prompts se adaptan automáticamente. Negro/Blanco usan "matte finish", colores vivos usan "vibrant color"
-- **Calidad**: Las imágenes son 1000x1000px, ideal para Shopify y Amazon
+- **Colores**: Los prompts se adaptan automáticamente. Gemini entiende bien instrucciones de color
+- **Calidad**: Las imágenes son generadas por Gemini directamente, ideal para Shopify y Amazon
+- **Velocidad**: 3-5 segundos por imagen, mucho más rápido que alternativas self-hosted
 
 ## ⚠️ Notas importantes
 
-- Banana cobra por uso de GPU. Monitorea tu consumo.
-- El tiempo de generación depende de la carga de Banana (típicamente 10-30 segundos)
-- Si usas img2img (con referencia), el resultado respeta más la forma original
-- Sin referencia, el prompt genera desde cero
+- **Gratis**: Google AI Studio ofrece generoso tier gratuito para Gemini (hasta ~2000 imágenes/día)
+- **Imagen de referencia**: Cuando subes foto, Gemini la usa como contexto visual. No es img2img técnico (no existe aún en Gemini), pero la imagen influye en la generación
+- **Resultados**: Gemini 2.0 Flash genera imágenes de buena calidad para e-commerce. Para resultados ultra-premium, considera Vertex AI Imagen 3 en el futuro
+- **Límites**: Si llegas al límite diario, espera 24h o considera Google Cloud billing
 
-## 🛠️ Alternativas si Banana no funciona
+## 🛠️ Alternativas si Gemini no funciona
 
-Si tienes problemas con Banana, puedes modificar `app.py` para usar:
-- **Replicate** (más estable, modelos pre-deployados)
-- **DALL-E 3** (OpenAI, mejor calidad pero más caro)
-- **Midjourney** (mejor estética, requiere Discord)
-- **Leonardo.ai** (gratis con límite diario)
+Si tienes problemas con Gemini, puedes modificar `app.py` para usar:
+- **Leonardo.ai** (150 créditos/día gratis, img2img real)
+- **Replicate** (Stable Diffusion XL, paga por uso)
+- **Banana Pro** (self-hosted, requiere deploy)
 
 ## 📞 Soporte
 
 ¿Problemas? Verifica:
-1. API Key correcta (sin espacios)
-2. Model Key deployed y activo
-3. Créditos disponibles en Banana
-4. Imagen de referencia < 5MB
+1. API Key correcta (sin espacios, desde aistudio.google.com)
+2. Imagen de referencia < 4MB (recomendado)
+3. Prompt no excede límites de longitud
+4. Tienes acceso a generación de imágenes en tu cuenta Google
 
 ---
 
-Made with ❤️ for NEBRO
+Made with ❤️ for NEBRO | Powered by Google Gemini 2.0 Flash

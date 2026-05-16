@@ -15,13 +15,15 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estilos CSS personalizados
+# ============================================
+# ESTILOS CSS
+# ============================================
 st.markdown("""
 <style>
     .main-header {
         font-size: 2.5rem;
         font-weight: bold;
-        background: linear-gradient(90deg, #1a1a1a 0%, #333 100%);
+        background: linear-gradient(90deg, #1a73e8 0%, #4285f4 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         text-align: center;
@@ -39,39 +41,13 @@ st.markdown("""
         border: 1px solid #e0e0e0;
         margin-bottom: 20px;
     }
-    .status-pending {
-        color: #ff9800;
-        font-weight: bold;
-    }
-    .status-done {
-        color: #4caf50;
-        font-weight: bold;
-    }
-    .status-error {
-        color: #f44336;
-        font-weight: bold;
-    }
-    .image-container {
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
     .prompt-box {
-        background: #f0f0f0;
+        background: #e8f0fe;
         border-radius: 8px;
         padding: 15px;
         font-family: monospace;
         font-size: 0.9rem;
-        border-left: 4px solid #2196F3;
-    }
-    .variant-badge {
-        display: inline-block;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: bold;
-        margin-right: 8px;
-        margin-bottom: 8px;
+        border-left: 4px solid #1a73e8;
     }
     .color-dot {
         width: 20px;
@@ -82,6 +58,15 @@ st.markdown("""
         border: 2px solid #ddd;
         vertical-align: middle;
     }
+    .gemini-badge {
+        background: linear-gradient(135deg, #4285f4, #34a853);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        display: inline-block;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -91,161 +76,156 @@ st.markdown("""
 
 PRODUCT_TYPE_PROMPTS = {
     "Audífonos TWS (In-Ear)": {
-        "base": "Professional product photography of {brand} {model} wireless earbuds, exact same design and shape as reference photo, floating in clean white studio background, soft shadows, 1000x1000 pixels, ultra high quality, sharp focus, commercial e-commerce style, professional lighting",
-        "variants": "Professional product photography of {brand} {model} wireless earbuds in {color} color, exact same design as reference but in {color} finish, floating on pure white background, soft shadows, 1000x1000, commercial quality, sharp focus",
+        "base": "Professional e-commerce product photo of {brand} {model} wireless earbuds, floating centered on pure white background, soft studio lighting, subtle shadow underneath, high-end commercial photography, 1000x1000 pixels, ultra sharp, no text no watermark",
+        "variants": "Professional e-commerce product photo of {brand} {model} wireless earbuds in {color} color, floating centered on pure white background, soft studio lighting, subtle shadow underneath, high-end commercial photography, 1000x1000 pixels, ultra sharp, no text no watermark",
         "keywords": ["wireless earbuds", "TWS", "bluetooth", "in-ear", "true wireless"]
     },
     "Audífonos OWS (Open-Ear)": {
-        "base": "Professional product photography of {brand} {model} open-ear wireless headphones, exact same design as reference photo, on clean white studio background, soft natural shadows, 1000x1000 pixels, ultra high quality, sharp focus, commercial e-commerce photography",
-        "variants": "Professional product photography of {brand} {model} open-ear headphones in {color} color, exact same design as reference but {color} variant, pure white background, soft shadows, 1000x1000, commercial quality",
-        "keywords": ["open-ear", "OWS", "wireless headphones", "bone conduction", "sport headphones"]
+        "base": "Professional e-commerce product photo of {brand} {model} open-ear wireless headphones, centered on pure white background, soft studio lighting, subtle shadow underneath, high-end commercial photography, 1000x1000 pixels, ultra sharp, no text no watermark",
+        "variants": "Professional e-commerce product photo of {brand} {model} open-ear wireless headphones in {color} color, centered on pure white background, soft studio lighting, subtle shadow underneath, high-end commercial photography, 1000x1000 pixels, ultra sharp, no text no watermark",
+        "keywords": ["open-ear", "OWS", "wireless headphones", "sport headphones"]
     },
     "Audífonos Collar (Neckband)": {
-        "base": "Professional product photography of {brand} {model} neckband wireless earphones, exact same design as reference photo, displayed on clean white background, soft shadows, 1000x1000 pixels, commercial e-commerce quality, sharp focus",
-        "variants": "Professional product photography of {brand} {model} neckband earphones in {color} color, same design as reference photo, pure white studio background, soft shadows, 1000x1000, sharp focus",
+        "base": "Professional e-commerce product photo of {brand} {model} neckband wireless earphones, centered arranged on pure white background, soft studio lighting, subtle shadow underneath, high-end commercial photography, 1000x1000 pixels, ultra sharp, no text no watermark",
+        "variants": "Professional e-commerce product photo of {brand} {model} neckband earphones in {color} color, centered on pure white background, soft studio lighting, subtle shadow underneath, high-end commercial photography, 1000x1000 pixels, ultra sharp, no text no watermark",
         "keywords": ["neckband", "collar", "wireless earphones", "sport", "bluetooth"]
     },
     "Bocina / Speaker": {
-        "base": "Professional product photography of {brand} {model} portable bluetooth speaker, exact same design and proportions as reference photo, on clean white studio background, soft shadows, 1000x1000 pixels, commercial e-commerce quality, sharp focus, professional lighting",
-        "variants": "Professional product photography of {brand} {model} portable bluetooth speaker in {color} color, exact same design as reference photo, pure white background, soft shadows, 1000x1000, commercial quality",
-        "keywords": ["bluetooth speaker", "portable speaker", "wireless speaker", "bocina"]
+        "base": "Professional e-commerce product photo of {brand} {model} portable bluetooth speaker, centered on pure white background, soft studio lighting, subtle shadow underneath, high-end commercial photography, 1000x1000 pixels, ultra sharp, no text no watermark",
+        "variants": "Professional e-commerce product photo of {brand} {model} portable bluetooth speaker in {color} color, centered on pure white background, soft studio lighting, subtle shadow underneath, high-end commercial photography, 1000x1000 pixels, ultra sharp, no text no watermark",
+        "keywords": ["bluetooth speaker", "portable speaker", "bocina"]
     },
     "Cable / Accesorio": {
-        "base": "Professional product photography of {brand} {model} charging cable/accessory, exact same design as reference photo, neatly arranged on clean white background, soft shadows, 1000x1000 pixels, commercial quality, sharp focus",
-        "variants": "Professional product photography of {brand} {model} {color} charging cable, same design as reference photo, pure white studio background, soft shadows, 1000x1000, sharp focus",
+        "base": "Professional e-commerce product photo of {brand} {model} charging cable, neatly coiled centered on pure white background, soft studio lighting, subtle shadow underneath, high-end commercial photography, 1000x1000 pixels, ultra sharp, no text no watermark",
+        "variants": "Professional e-commerce product photo of {brand} {model} {color} charging cable, neatly coiled centered on pure white background, soft studio lighting, subtle shadow underneath, high-end commercial photography, 1000x1000 pixels, ultra sharp, no text no watermark",
         "keywords": ["charging cable", "data cable", "USB cable", "accessory"]
     },
     "Cargador / Charger": {
-        "base": "Professional product photography of {brand} {model} wall charger, exact same design as reference photo, on clean white studio background, soft shadows, 1000x1000 pixels, commercial e-commerce quality, sharp focus",
-        "variants": "Professional product photography of {brand} {model} wall charger in {color} color, same design as reference, pure white background, soft shadows, 1000x1000, commercial quality",
+        "base": "Professional e-commerce product photo of {brand} {model} wall charger adapter, centered on pure white background, soft studio lighting, subtle shadow underneath, high-end commercial photography, 1000x1000 pixels, ultra sharp, no text no watermark",
+        "variants": "Professional e-commerce product photo of {brand} {model} wall charger in {color} color, centered on pure white background, soft studio lighting, subtle shadow underneath, high-end commercial photography, 1000x1000 pixels, ultra sharp, no text no watermark",
         "keywords": ["wall charger", "fast charger", "USB charger", "adapter"]
     },
     "Soporte / Stand": {
-        "base": "Professional product photography of {brand} {model} phone stand/holder, exact same design as reference photo, on clean white studio background, soft shadows, 1000x1000 pixels, commercial quality, sharp focus",
-        "variants": "Professional product photography of {brand} {model} phone stand in {color} color, same design as reference, pure white background, soft shadows, 1000x1000, commercial quality",
+        "base": "Professional e-commerce product photo of {brand} {model} phone stand holder, centered on pure white background, soft studio lighting, subtle shadow underneath, high-end commercial photography, 1000x1000 pixels, ultra sharp, no text no watermark",
+        "variants": "Professional e-commerce product photo of {brand} {model} phone stand in {color} color, centered on pure white background, soft studio lighting, subtle shadow underneath, high-end commercial photography, 1000x1000 pixels, ultra sharp, no text no watermark",
         "keywords": ["phone stand", "holder", "mount", "soporte"]
     },
     "Otro / General": {
-        "base": "Professional product photography of {brand} {model} electronic product, exact same design as reference photo, on clean white studio background, soft shadows, 1000x1000 pixels, ultra high quality, sharp focus, commercial e-commerce style",
-        "variants": "Professional product photography of {brand} {model} in {color} color, same design as reference photo, pure white background, soft shadows, 1000x1000, commercial quality",
+        "base": "Professional e-commerce product photo of {brand} {model} electronic product, centered on pure white background, soft studio lighting, subtle shadow underneath, high-end commercial photography, 1000x1000 pixels, ultra sharp, no text no watermark",
+        "variants": "Professional e-commerce product photo of {brand} {model} in {color} color, centered on pure white background, soft studio lighting, subtle shadow underneath, high-end commercial photography, 1000x1000 pixels, ultra sharp, no text no watermark",
         "keywords": ["electronics", "gadget", "accessory"]
     }
 }
 
-# Colores comunes para variantes
-COMMON_COLORS = {
-    "Negro": "black",
-    "Blanco": "white",
-    "Azul": "blue",
-    "Rojo": "red",
-    "Rosa": "pink",
-    "Verde": "green",
-    "Morado": "purple",
-    "Naranja": "orange",
-    "Gris": "gray",
-    "Amarillo": "yellow",
-    "Dorado": "gold",
-    "Plateado": "silver"
-}
-
 COLOR_HEX = {
-    "Negro": "#000000",
-    "Blanco": "#FFFFFF",
-    "Azul": "#2196F3",
-    "Rojo": "#F44336",
-    "Rosa": "#E91E63",
-    "Verde": "#4CAF50",
-    "Morado": "#9C27B0",
-    "Naranja": "#FF9800",
-    "Gris": "#9E9E9E",
-    "Amarillo": "#FFEB3B",
-    "Dorado": "#FFD700",
-    "Plateado": "#C0C0C0"
+    "Negro": "#000000", "Blanco": "#FFFFFF", "Azul": "#2196F3",
+    "Rojo": "#F44336", "Rosa": "#E91E63", "Verde": "#4CAF50",
+    "Morado": "#9C27B0", "Naranja": "#FF9800", "Gris": "#9E9E9E",
+    "Amarillo": "#FFEB3B", "Dorado": "#FFD700", "Plateado": "#C0C0C0"
 }
 
 # ============================================
-# FUNCIONES BANANA API
+# FUNCIONES GEMINI API
 # ============================================
 
-def call_banana_api(api_key, model_key, prompt, reference_image_b64=None):
+GEMINI_MODEL = "gemini-2.0-flash-preview-image-generation"
+
+def call_gemini_image_gen(api_key, prompt, reference_image_b64=None, reference_mime="image/jpeg"):
     """
-    Llama a la API de Banana para generar imágenes.
-    
-    Para usar Banana necesitas:
-    - api_key: Tu API key de Banana
-    - model_key: El key del modelo deployed (ej. 'sdxl-base')
+    Llama a la API de Gemini para generar imágenes.
+    Si hay imagen de referencia, la incluye como contexto visual.
     """
     
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={api_key}"
     
-    # Construir el payload
-    payload = {
-        "prompt": prompt,
-        "width": 1000,
-        "height": 1000,
-        "num_inference_steps": 50,
-        "guidance_scale": 7.5,
-        "negative_prompt": "blurry, low quality, distorted, deformed, ugly, bad anatomy, watermark, text, logo, signature, cropped, out of frame, worst quality, low resolution"
-    }
+    parts = [{"text": prompt}]
     
-    # Si hay imagen de referencia, usar img2img
+    # Si hay imagen de referencia, agregarla como parte visual
     if reference_image_b64:
-        payload["image"] = reference_image_b64
-        payload["strength"] = 0.4  # Cuánto se respeta la imagen original
+        parts.append({
+            "inlineData": {
+                "mimeType": reference_mime,
+                "data": reference_image_b64
+            }
+        })
+        # Cuando hay referencia, agregar instrucción de mantener diseño
+        parts[0]["text"] += "\n\nUse the reference product image above as the exact design template. Keep the same product shape, proportions, and details. Only change the background to pure white and apply the requested color if specified."
+    
+    payload = {
+        "contents": [{"parts": parts}],
+        "generationConfig": {
+            "responseModalities": ["Text", "Image"],
+            "temperature": 0.7,
+        }
+    }
     
     try:
-        # Banana API endpoint
-        url = f"https://api.banana.dev/start/{model_key}"
+        response = requests.post(
+            url,
+            headers={"Content-Type": "application/json"},
+            json=payload,
+            timeout=60
+        )
         
-        response = requests.post(url, headers=headers, json=payload, timeout=30)
+        if response.status_code != 200:
+            return {"success": False, "error": f"HTTP {response.status_code}: {response.text[:300]}"}
         
-        if response.status_code == 200:
-            result = response.json()
-            call_id = result.get("callID")
-            
-            if call_id:
-                # Esperar resultado
-                status_url = f"https://api.banana.dev/check/{model_key}/{call_id}"
+        data = response.json()
+        
+        # Verificar si hay error en la respuesta
+        if "error" in data:
+            return {"success": False, "error": data["error"].get("message", str(data["error"]))}
+        
+        # Buscar imagen generada en las partes de respuesta
+        candidates = data.get("candidates", [])
+        if not candidates:
+            return {"success": False, "error": "No candidates in response"}
+        
+        content = candidates[0].get("content", {})
+        response_parts = content.get("parts", [])
+        
+        for part in response_parts:
+            if "inlineData" in part:
+                img_data = part["inlineData"]
+                image_b64 = img_data.get("data", "")
+                mime_type = img_data.get("mimeType", "image/png")
                 
-                for _ in range(60):  # Max 60 segundos
-                    time.sleep(1)
-                    status_resp = requests.get(status_url, headers=headers, timeout=10)
-                    
-                    if status_resp.status_code == 200:
-                        status_data = status_resp.json()
-                        
-                        if status_data.get("modelOutputs"):
-                            # Éxito
-                            outputs = status_data["modelOutputs"]
-                            if outputs and len(outputs) > 0:
-                                # La imagen puede venir como base64
-                                image_b64 = outputs[0].get("image_base64") or outputs[0].get("image")
-                                if image_b64:
-                                    return {"success": True, "image_b64": image_b64}
-                        
-                        if status_data.get("message") == "running":
-                            continue
-                        
-                return {"success": False, "error": "Timeout waiting for generation"}
-            else:
-                return {"success": False, "error": "No callID returned"}
-        else:
-            return {"success": False, "error": f"HTTP {response.status_code}: {response.text[:200]}"}
-            
+                if image_b64:
+                    return {
+                        "success": True,
+                        "image_b64": image_b64,
+                        "mime_type": mime_type
+                    }
+        
+        # Si no hay imagen, revisar si hay texto de error
+        text_parts = [p.get("text", "") for p in response_parts if "text" in p]
+        if text_parts:
+            return {"success": False, "error": f"Gemini returned text instead of image: {' '.join(text_parts)[:200]}"}
+        
+        return {"success": False, "error": "No image generated in response"}
+        
     except Exception as e:
         return {"success": False, "error": str(e)}
 
 
 def image_to_base64(image_file):
-    """Convierte un archivo de imagen a base64"""
+    """Convierte un archivo de imagen a base64 y detecta MIME type"""
     if image_file is None:
-        return None
+        return None, None
     
     bytes_data = image_file.getvalue()
-    return base64.b64encode(bytes_data).decode('utf-8')
+    mime_type = "image/jpeg"  # default
+    
+    # Detectar tipo por extensión
+    filename = getattr(image_file, 'name', '').lower()
+    if filename.endswith('.png'):
+        mime_type = "image/png"
+    elif filename.endswith('.webp'):
+        mime_type = "image/webp"
+    elif filename.endswith('.jpg') or filename.endswith('.jpeg'):
+        mime_type = "image/jpeg"
+    
+    return base64.b64encode(bytes_data).decode('utf-8'), mime_type
 
 
 def build_prompt(product_type, brand, model, is_variant=False, color=None, additional_prompt=""):
@@ -254,32 +234,14 @@ def build_prompt(product_type, brand, model, is_variant=False, color=None, addit
     type_config = PRODUCT_TYPE_PROMPTS.get(product_type, PRODUCT_TYPE_PROMPTS["Otro / General"])
     
     if is_variant and color:
-        prompt_template = type_config["variants"]
-        prompt = prompt_template.format(
-            brand=brand,
-            model=model,
-            color=color
-        )
+        prompt = type_config["variants"].format(brand=brand, model=model, color=color)
     else:
-        prompt_template = type_config["base"]
-        prompt = prompt_template.format(
-            brand=brand,
-            model=model
-        )
+        prompt = type_config["base"].format(brand=brand, model=model)
     
-    # Agregar prompt adicional del usuario
     if additional_prompt.strip():
         prompt += f". {additional_prompt.strip()}"
     
     return prompt
-
-
-def generate_image_with_fallback(api_key, model_key, prompt, reference_b64=None):
-    """
-    Intenta generar con Banana. Si falla, da opciones alternativas.
-    """
-    result = call_banana_api(api_key, model_key, prompt, reference_b64)
-    return result
 
 
 # ============================================
@@ -288,37 +250,29 @@ def generate_image_with_fallback(api_key, model_key, prompt, reference_b64=None)
 
 def main():
     st.markdown('<div class="main-header">🖼️ NEBRO Image Generator</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Genera imágenes profesionales de producto con Banana Pro</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header">Genera imágenes profesionales de producto con <span class="gemini-badge">Gemini 2.0 Flash</span></div>', unsafe_allow_html=True)
     
     # Sidebar - Configuración API
     with st.sidebar:
         st.header("⚙️ Configuración API")
         
         st.markdown("""
-        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107; margin-bottom: 20px;">
+        <div style="background: #e8f0fe; padding: 15px; border-radius: 8px; border-left: 4px solid #4285f4; margin-bottom: 20px;">
             <strong>🔑 Requerido:</strong><br>
-            Necesitas una cuenta en <a href="https://www.banana.dev" target="_blank">Banana.dev</a> 
-            y un modelo deployed (ej. Stable Diffusion XL).
+            Obtén tu API key gratis en 
+            <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>
         </div>
         """, unsafe_allow_html=True)
         
         api_key = st.text_input(
-            "Banana API Key",
+            "Gemini API Key",
             type="password",
-            value=st.session_state.get("banana_api_key", ""),
-            help="Obtén tu API key en banana.dev"
-        )
-        
-        model_key = st.text_input(
-            "Model Key",
-            value=st.session_state.get("banana_model_key", ""),
-            help="Ejemplo: 'sdxl-base' o tu modelo custom deployed"
+            value=st.session_state.get("gemini_api_key", ""),
+            help="Crea tu key en aistudio.google.com/app/apikey"
         )
         
         if api_key:
-            st.session_state["banana_api_key"] = api_key
-        if model_key:
-            st.session_state["banana_model_key"] = model_key
+            st.session_state["gemini_api_key"] = api_key
         
         st.divider()
         
@@ -334,7 +288,11 @@ def main():
         - Tamaño: **1000x1000px**
         - Fondo: **Blanco limpio**
         - Calidad: **Profesional e-commerce**
+        - Tiempo: **3-5 segundos**
         """)
+        
+        st.divider()
+        st.caption(f"Modelo: {GEMINI_MODEL}")
     
     # Área principal - Formulario
     col1, col2 = st.columns([1, 1])
@@ -346,14 +304,14 @@ def main():
         uploaded_file = st.file_uploader(
             "Sube una foto del producto real",
             type=["png", "jpg", "jpeg", "webp"],
-            help="La foto se usará como referencia para mantener el diseño exacto del producto"
+            help="La foto guía la generación para mantener el diseño exacto del producto"
         )
         
         if uploaded_file:
             st.image(uploaded_file, caption="Imagen de referencia", use_column_width=True)
-            reference_b64 = image_to_base64(uploaded_file)
+            reference_b64, reference_mime = image_to_base64(uploaded_file)
         else:
-            reference_b64 = None
+            reference_b64, reference_mime = None, None
             st.info("👆 Sube una foto para usar como referencia")
         
         st.markdown('</div>', unsafe_allow_html=True)
@@ -384,7 +342,7 @@ def main():
         
         is_variant = st.checkbox(
             "¿Este producto tiene variantes de color?",
-            help="Si activas esto, se generará una imagen por cada color seleccionado"
+            help="Se generará una imagen por cada color seleccionado"
         )
         
         selected_colors = []
@@ -394,10 +352,7 @@ def main():
             color_cols = st.columns(4)
             for idx, (color_name, color_hex) in enumerate(COLOR_HEX.items()):
                 with color_cols[idx % 4]:
-                    if st.checkbox(
-                        f"{color_name}",
-                        key=f"color_{color_name}"
-                    ):
+                    if st.checkbox(color_name, key=f"color_{color_name}"):
                         selected_colors.append(color_name)
         
         additional_prompt = st.text_area(
@@ -416,7 +371,6 @@ def main():
         if is_variant and selected_colors:
             for color in selected_colors:
                 prompt = build_prompt(product_type, brand, model, True, color, additional_prompt)
-                
                 st.markdown(f"""
                 <div style="display: flex; align-items: center; margin-bottom: 10px;">
                     <span class="color-dot" style="background: {COLOR_HEX.get(color, '#ccc')};"></span>
@@ -439,13 +393,13 @@ def main():
             "🚀 GENERAR IMÁGENES",
             type="primary",
             use_container_width=True,
-            disabled=not (api_key and model_key and model and uploaded_file)
+            disabled=not (api_key and model and uploaded_file)
         )
     
     # Área de resultados
     if generate_btn:
-        if not api_key or not model_key:
-            st.error("❌ Debes configurar tu Banana API Key y Model Key en la barra lateral")
+        if not api_key:
+            st.error("❌ Debes configurar tu Gemini API Key en la barra lateral")
             return
         
         if not model:
@@ -456,7 +410,6 @@ def main():
             st.error("❌ Debes subir una foto de referencia")
             return
         
-        # Generar imágenes
         st.markdown("---")
         st.subheader("🎨 Generando Imágenes...")
         
@@ -474,7 +427,7 @@ def main():
                 prompt = build_prompt(product_type, brand, model, True, color, additional_prompt)
                 
                 with st.spinner(f"Generando {color}..."):
-                    result = generate_image_with_fallback(api_key, model_key, prompt, reference_b64)
+                    result = call_gemini_image_gen(api_key, prompt, reference_b64, reference_mime)
                 
                 results.append({
                     "color": color,
@@ -483,14 +436,20 @@ def main():
                     "result": result
                 })
                 
-                # Pequeña pausa entre requests
-                time.sleep(1)
+                time.sleep(0.5)  # Breve pausa entre requests
             
             progress_bar.progress(1.0)
             status_text.text("¡Completado!")
             
             # Mostrar resultados
             st.subheader("✅ Resultados")
+            
+            success_count = sum(1 for r in results if r["result"]["success"])
+            
+            if success_count == len(results):
+                st.success(f"🎉 {len(results)} imágenes generadas exitosamente!")
+            elif success_count > 0:
+                st.warning(f"⚠️ {success_count} de {len(results)} imágenes generadas. Revisa los errores abajo.")
             
             cols = st.columns(min(len(results), 3))
             for idx, res in enumerate(results):
@@ -503,13 +462,11 @@ def main():
                     """, unsafe_allow_html=True)
                     
                     if res["result"]["success"]:
-                        # Decodificar imagen
                         img_data = base64.b64decode(res["result"]["image_b64"])
                         img = Image.open(io.BytesIO(img_data))
                         
                         st.image(img, use_column_width=True)
                         
-                        # Botón de descarga
                         img_bytes = io.BytesIO()
                         img.save(img_bytes, format='PNG')
                         img_bytes.seek(0)
@@ -526,18 +483,13 @@ def main():
                         )
                     else:
                         st.error(f"❌ Error: {res['result']['error']}")
-            
-            # Botón descargar todas
-            if all(r["result"]["success"] for r in results):
-                st.markdown("---")
-                st.success(f"🎉 {len(results)} imágenes generadas exitosamente!")
         
         else:
             # Generar imagen única
             prompt = build_prompt(product_type, brand, model, False, None, additional_prompt)
             
             with st.spinner("Generando imagen profesional..."):
-                result = generate_image_with_fallback(api_key, model_key, prompt, reference_b64)
+                result = call_gemini_image_gen(api_key, prompt, reference_b64, reference_mime)
             
             if result["success"]:
                 img_data = base64.b64decode(result["image_b64"])
@@ -546,7 +498,6 @@ def main():
                 st.subheader("✅ Imagen Generada")
                 st.image(img, use_column_width=True)
                 
-                # Botón descarga
                 img_bytes = io.BytesIO()
                 img.save(img_bytes, format='PNG')
                 img_bytes.seek(0)
@@ -561,7 +512,6 @@ def main():
                     mime="image/png"
                 )
                 
-                # Mostrar prompt usado
                 with st.expander("Ver prompt utilizado"):
                     st.code(prompt, language="text")
             else:
@@ -571,20 +521,18 @@ def main():
                 <div style="background: #ffebee; padding: 20px; border-radius: 10px; border-left: 4px solid #f44336;">
                     <h4>🔧 Posibles soluciones:</h4>
                     <ol>
-                        <li>Verifica que tu API key de Banana sea correcta</li>
-                        <li>Confirma que el model key esté deployed y activo</li>
-                        <li>Revisa que tu modelo soporte img2img (si usas foto de referencia)</li>
-                        <li>Prueba sin imagen de referencia primero</li>
+                        <li>Verifica que tu Gemini API key sea correcta (sin espacios)</li>
+                        <li>Confirma que tu cuenta tenga acceso a generación de imágenes en AI Studio</li>
+                        <li>Revisa que la imagen de referencia no sea muy grande (< 4MB recomendado)</li>
+                        <li>Intenta con un prompt más corto si es muy largo</li>
                     </ol>
-                    <p>Si el problema persiste, puedes usar alternativas como:
-                    <a href="https://replicate.com" target="_blank">Replicate</a> o 
-                    <a href="https://platform.openai.com" target="_blank">DALL-E</a></p>
+                    <p>Si persiste, prueba generar sin imagen de referencia primero.</p>
                 </div>
                 """, unsafe_allow_html=True)
     
     # Footer
     st.markdown("---")
-    st.caption("NEBRO Image Generator v1.0 | Powered by Banana.dev")
+    st.caption("NEBRO Image Generator v2.0 | Powered by Google Gemini 2.0 Flash")
 
 
 if __name__ == "__main__":
