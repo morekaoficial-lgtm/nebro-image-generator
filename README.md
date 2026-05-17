@@ -1,100 +1,95 @@
-# 🖼️ NEBRO Image Generator
+# NEBRO Image Generator
 
-App Streamlit para generar imágenes profesionales de productos usando **Google Gemini 2.0 Flash Image Generation**.
+Aplicación Streamlit para generar prompts optimizados para **Leonardo.ai Image Generation**, diseñada específicamente para crear fotos profesionales de productos NEBRO con fondo blanco y variantes de color.
 
-## ✨ Características
+## 🚀 Demo en vivo
 
-- 📸 **Sube fotos de referencia** del producto real
-- 🎨 **Genera imágenes** 1000x1000px con fondo blanco profesional
-- 🔄 **Soporte de variantes**: Genera automáticamente una imagen por cada color
-- 📝 **Prompts inteligentes**: Adaptados según tipo de producto (TWS, OWS, collar, bocina, cable, etc.)
-- 🏷️ **Contexto visual**: La foto de referencia guía la generación para mantener el diseño
-- ⬇️ **Descarga fácil**: Un botón por imagen generada
-- ⚡ **Rápido**: 3-5 segundos por imagen con Gemini
-- 💰 **Gratis**: Hasta 2000 imágenes/día en tier gratuito de Google AI Studio
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://nebro-image-generator.streamlit.app/)
 
-## 🚀 Deploy en Streamlit Cloud
+## 📋 Características
 
-1. **Fork/crea repo** en GitHub con estos archivos
-2. **Ve a** [share.streamlit.io](https://share.streamlit.io)
-3. **Conecta tu repo** `nebro-image-generator`
-4. **Deploy automático**
+- **Prompts optimizados para Leonardo.ai** — Generados específicamente para img2img con fondo blanco
+- **12 tipos de producto** preconfigurados (TWS, OWS, Collar, Bocina, Cable, Cargador, etc.)
+- **12 colores** para variantes (Negro, Blanco, Azul, Rojo, Rosa, Verde, Morado, Naranja, Gris, Amarillo, Dorado, Plateado)
+- **Tutorial integrado** — Instrucciones paso a paso para usar Leonardo.ai
+- **Copiar al portapapeles** — Un click para copiar prompts
+- **Descarga en batch** — Todos los prompts de variantes en un archivo ZIP
+- **Previsualización de imagen** — Muestra la imagen de referencia subida
 
-## 🔑 Configuración Gemini API
+## 🛠️ Uso
 
-1. Ve a [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
-2. Crea una **API Key** (gratis)
-3. Ingrésala en la barra lateral de la app
+### 1. Subir imagen de referencia
+Sube una foto del producto real. La app la mostrará como referencia.
 
-### Modelo utilizado:
-- `gemini-2.0-flash-preview-image-generation` — Generación nativa de imágenes con Gemini 2.0 Flash
+### 2. Seleccionar configuración
+- **Tipo de producto** — Selecciona el tipo (Bocina, Audífonos, Cable, etc.)
+- **Marca** — Generalmente "NEBRO"
+- **Modelo** — Ej: "G5", "WG-141", "WD-306"
+- **Variantes de color** — Selecciona los colores que necesitas
 
-## 📝 Cómo usar
+### 3. Copiar prompts a Leonardo.ai
+1. Ve a [leonardo.ai](https://leonardo.ai) → Image Generation
+2. Selecciona **"Image to Image"**
+3. Sube tu foto de referencia
+4. Copia el prompt generado por la app
+5. Pega en el campo de prompt de Leonardo
+6. Selecciona modelo **Leonardo Kino XL** o **Leonardo Vision XL**
+7. Click **Generate**
 
-1. **Sube una foto** del producto real (la app usa como referencia visual)
-2. **Selecciona el tipo** de producto (TWS, OWS, collar, bocina, etc.)
-3. **Ingresa marca** (ej. NEBRO) y **modelo** (ej. WD-305TL)
-4. **Activa variantes** si el producto tiene colores diferentes
-5. **Selecciona los colores** disponibles
-6. **Agrega detalles** opcionales en "Prompt adicional"
-7. **Haz click en GENERAR**
-8. **Descarga** cada imagen generada
+## 📝 Prompts generados
 
-## 🎨 Prompts por tipo de producto
-
-La app genera prompts profesionales automáticamente:
-
-| Tipo | Prompt base |
-|------|-------------|
-| Audífonos TWS | Professional e-commerce product photo of [brand] [model] wireless earbuds... |
-| Audífonos OWS | Professional e-commerce product photo of [brand] [model] open-ear wireless headphones... |
-| Collar (Neckband) | Professional e-commerce product photo of [brand] [model] neckband wireless earphones... |
-| Bocina | Professional e-commerce product photo of [brand] [model] portable bluetooth speaker... |
-| Cable | Professional e-commerce product photo of [brand] [model] charging cable... |
-| Cargador | Professional e-commerce product photo of [brand] [model] wall charger adapter... |
-| Soporte | Professional e-commerce product photo of [brand] [model] phone stand holder... |
-
-Para variantes, agrega automáticamente el color especificado.
-
-## 🔧 Estructura del proyecto
-
+### Prompt base (fondo blanco):
 ```
-nebro-image-generator/
-├── app.py              # App principal Streamlit
-├── requirements.txt    # Dependencias
-└── README.md          # Este archivo
+Professional e-commerce product photography, [PRODUCTO] on pure white background, 
+studio lighting, soft shadows, centered composition, high resolution, commercial product 
+shot, clean minimal aesthetic, 1000x1000 pixel format, sharp focus, premium quality 
+professional catalog image
 ```
 
-## 💡 Tips
+### Prompt variante de color:
+```
+Professional e-commerce product photography, [PRODUCTO] in [COLOR] color on pure 
+white background, studio lighting, soft shadows, centered composition, high resolution, 
+commercial product shot, clean minimal aesthetic, 1000x1000 pixel format, sharp focus, 
+premium quality professional catalog image, exact same product design and shape
+```
 
-- **Foto de referencia**: Cuanto más clara, mejor. Gemini usa la imagen como guía visual para mantener la forma del producto
-- **Prompt adicional**: Usa para detalles como "con estuche de carga visible" o "cable incluido en caja"
-- **Colores**: Los prompts se adaptan automáticamente. Gemini entiende bien instrucciones de color
-- **Calidad**: Las imágenes son generadas por Gemini directamente, ideal para Shopify y Amazon
-- **Velocidad**: 3-5 segundos por imagen, mucho más rápido que alternativas self-hosted
+## 🏃 Ejecutar localmente
 
-## ⚠️ Notas importantes
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
 
-- **Gratis**: Google AI Studio ofrece generoso tier gratuito para Gemini (hasta ~2000 imágenes/día)
-- **Imagen de referencia**: Cuando subes foto, Gemini la usa como contexto visual. No es img2img técnico (no existe aún en Gemini), pero la imagen influye en la generación
-- **Resultados**: Gemini 2.0 Flash genera imágenes de buena calidad para e-commerce. Para resultados ultra-premium, considera Vertex AI Imagen 3 en el futuro
-- **Límites**: Si llegas al límite diario, espera 24h o considera Google Cloud billing
+## 📦 Deploy en Streamlit Cloud
 
-## 🛠️ Alternativas si Gemini no funciona
+1. Fork este repo
+2. Ve a [share.streamlit.io](https://share.streamlit.io)
+3. Conecta tu GitHub
+4. Selecciona este repo
+5. Click **Deploy**
 
-Si tienes problemas con Gemini, puedes modificar `app.py` para usar:
-- **Leonardo.ai** (150 créditos/día gratis, img2img real)
-- **Replicate** (Stable Diffusion XL, paga por uso)
-- **Banana Pro** (self-hosted, requiere deploy)
+## 🎨 Leonardo.ai — Configuración recomendada
 
-## 📞 Soporte
+| Parámetro | Valor recomendado |
+|---|---|
+| **Modelo** | Leonardo Kino XL o Leonardo Vision XL |
+| **Modo** | Image to Image |
+| **Strength** | 0.35 - 0.45 (bajo = más fiel al original) |
+| **Dimensiones** | 1024 x 1024 |
+| **Guidance Scale** | 7 - 9 |
+| **Steps** | 30 - 40 |
 
-¿Problemas? Verifica:
-1. API Key correcta (sin espacios, desde aistudio.google.com)
-2. Imagen de referencia < 4MB (recomendado)
-3. Prompt no excede límites de longitud
-4. Tienes acceso a generación de imágenes en tu cuenta Google
+## 🆓 Créditos gratuitos
+
+Leonardo.ai ofrece **150 créditos/día** en plan gratuito:
+- ~10-15 imágenes por día (dependiendo del modelo)
+- Suficiente para generar fotos de 3-4 productos con variantes
+
+## 📄 Licencia
+
+MIT License — Libre para uso comercial y personal.
 
 ---
 
-Made with ❤️ for NEBRO | Powered by Google Gemini 2.0 Flash
+**Hecho con ❤️ para MOREKA SHOP / NEBRO Audio**
